@@ -1,4 +1,8 @@
+import 'package:docto_libre/appointement/screens/appointement.dart';
 import 'package:flutter/material.dart';
+
+import 'appointement/screens/appointement_list.dart';
+import 'authentification/screens/login.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,14 +13,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Docto Libre',
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginScreen(),
+        '/appointements': (context) => AppointementListScreen(),
+        '/appointement': (context) => AppointementScreen(),
+      },
     );
   }
 }
