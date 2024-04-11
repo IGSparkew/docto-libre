@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../componements/header.dart';
@@ -19,7 +20,6 @@ class LoginScreenState extends State<LoginScreen> {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
-
   }
 
   Map<String, dynamic> userData = {
@@ -81,13 +81,16 @@ class LoginScreenState extends State<LoginScreen> {
                         child: SizedBox(
                             width: 300,
                             child: OutlinedButton (
-                                onPressed: () {
+                                onPressed: () async {
                                   if (formKey.currentState!.validate()) {
                                     formKey.currentState!.save();
-                                    // TODO to delete print !!!!
-                                    print(userData);
-                                    formKey.currentState!.reset();
-                                    Navigator.of(context).pushNamed('/appointements');
+                                    try {
+                                      await FirebaseAuth.instance.signInWithEmailAndPassword(email: userData["username"], password: userData["password"]);
+                                      formKey.currentState!.reset();
+                                      Navigator.of(context).pushNamed('/appointements');
+                                    } on FirebaseAuthException catch (e) {
+                                      print("user not found ");
+                                    }
                                   }
                                 },
                                 child: Text('Connexion', style: TextStyle(color: Colors.black),),
