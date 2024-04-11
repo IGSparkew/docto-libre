@@ -88,4 +88,5 @@ class DefaultFirebaseOptions {
     databaseURL: 'https://flutterfinal-8cb16-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'flutterfinal-8cb16.appspot.com',
   );
+
 }
