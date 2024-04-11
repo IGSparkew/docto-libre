@@ -16,6 +16,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Docto Libre',
+      theme: ThemeData(scaffoldBackgroundColor: Color(0xFFF1F7FE), primaryColor: Color(0xFF004080),),
       initialRoute: '/',
       routes: {
         '/': (context) => LoginScreen(),
