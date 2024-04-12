@@ -92,9 +92,17 @@ class LoginScreenState extends State<LoginScreen> {
                                             .signInWithEmailAndPassword(
                                                 email: userData["username"],
                                                 password: userData["password"]);
-                                        formKey.currentState!.reset();
-                                        Navigator.of(context)
-                                            .pushNamed('/appointements');
+                                        String? userUuid = FirebaseAuth.instance.currentUser?.uid;
+                                        if (userUuid != null) {
+                                          Navigator.of(context).pushNamed('/appointements', arguments: {'userUuid': userUuid});
+                                        } else {
+                                          setState(() {
+                                            isLoginFailed = true;
+                                        });
+
+                                          formKey.currentState!.reset();
+                                        }
+
                                       } on FirebaseAuthException catch (e) {
                                         setState(() {
                                           isLoginFailed = true;
