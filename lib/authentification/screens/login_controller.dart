@@ -12,6 +12,7 @@ class LoginController extends ValueNotifier<UserData> {
 
   final mailController = TextEditingController();
   final passwordController = TextEditingController();
+  
 
   void login({required ValueChanged<UserCredential> onSuccess}) async {
     value = UserData.instance;
