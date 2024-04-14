@@ -103,7 +103,7 @@ class LoginScreenState extends State<LoginScreen> {
                                           formKey.currentState!.reset();
                                         }
 
-                                      } on FirebaseAuthException catch (e) {
+                                      } on FirebaseAuthException {
                                         setState(() {
                                           isLoginFailed = true;
                                         });

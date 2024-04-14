@@ -1,4 +1,5 @@
 import 'package:docto_libre/appointement/screens/appointement.dart';
+import 'package:docto_libre/appointement/screens/validate.dart';
 import 'package:docto_libre/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,6 +39,7 @@ class MainApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/appointements': (context) => AppointementListScreen(),
         '/appointement': (context) => AppointementScreen(),
+        '/validate':(context) => ValidateScreen(),
       },
     );
   }
