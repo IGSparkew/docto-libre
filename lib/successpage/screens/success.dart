@@ -13,9 +13,28 @@ class SuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args == null || args['userUuid'] == null || args['id'] == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Erreur'),
+        ),
+        body: Center(
+          child: Text('Arguments manquants'),
+        ),
+      );
+    }
+    final userUuid = args['userUuid'];
+    final id = args['id'];
+    final nom = args['nom'];
+    final prenom = args['prenom'];
+    final specialite = args['specialite'];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appointment App'),
+        title: Text('Rendez-vous validé'),
         backgroundColor: Colors.blue,
       ),
       body: Center(
@@ -27,21 +46,21 @@ class SuccessPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    child: Text(appointment.name[0]),
+                    child: Text(nom[0]),
                   ),
                   SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        appointment.name,
+                        prenom + ' ' + nom,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        appointment.role,
+                        specialite,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
@@ -85,19 +104,6 @@ class SuccessPage extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: 50,
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text('Retosdurz'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
           ),
         ),
       ),

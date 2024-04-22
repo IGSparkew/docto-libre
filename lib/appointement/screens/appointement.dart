@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AppointementScreen extends StatefulWidget {
-
   AppointementScreen({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +22,6 @@ class _AppointementScreenState extends State<AppointementScreen> {
     );
     if (response.statusCode == 200) {
       dynamic jsonData = jsonDecode(response.body);
-      print(jsonData);
       return jsonData['data'];
     } else {
       throw Exception('Failed to load data');
@@ -50,40 +48,106 @@ class _AppointementScreenState extends State<AppointementScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Liste des rendez-vous'),
+        title: Text('Rendez-vous'),
       ),
       body: FutureBuilder(
-          future: fetchData(id),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child:
-                    CircularProgressIndicator(), // Afficher un indicateur de chargement
-              );
-            } else if (snapshot.hasError) {
-              return Text('Erreur : ${snapshot.error}'); // Gérer les erreurs
-            } else if (snapshot.data == null) {
-              return Text('Aucune donnée à afficher');
-            } else {
-              return Center(
+        future: fetchData(id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text('Erreur : ${snapshot.error}');
+          } else if (snapshot.data == null) {
+            return Text('Aucune donnée à afficher');
+          } else {
+            return Center(
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(snapshot.data['nom']!),
-                    Text(snapshot.data['description']!),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/validate',
-                            arguments: {'userUuid': userUuid, 'id': id});
-                      },
-                      child: Text('Valider'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          child: Text(snapshot.data['nom'][0]),
+                        ),
+                        SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.data['prenom'] +
+                                  ' ' +
+                                  snapshot.data['nom'],
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Container(
+                      width: 390,
+                      height: 500,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        color: Colors.grey[300],
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data['description']! +
+                                    (snapshot.data['vital_card'] == '1'
+                                        ? ' et prends la carte vitale'
+                                        : ''),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .center,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/success',
+                                          arguments: {
+                                            'userUuid': userUuid,
+                                            'id': id,
+                                            'nom': snapshot.data['nom'],
+                                            'prenom': snapshot.data['prenom'],
+                                            'specialite':
+                                                snapshot.data['specialty']
+                                          });
+                                    },
+                                    child: Text('Valider'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              );
-            }
-          }),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
