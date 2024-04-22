@@ -38,7 +38,7 @@ class _AppointementListScreenState extends State<AppointementListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Liste des rendez-vous'),
+        title: Text('Liste des praticiens'),
       ),
       body: FutureBuilder(
         future: fetchData(),
@@ -58,7 +58,7 @@ class _AppointementListScreenState extends State<AppointementListScreen> {
                 // Afficher chaque élément de la liste
                 if (index < snapshot.data.length) {
                   return ListTile(
-                    title: Text(snapshot.data[index]['nom']),
+                    title: Text(snapshot.data[index]['nom'] + ' ' + snapshot.data[index]['prenom']),
                     subtitle: Text(snapshot.data[index]['description']),
                     onTap: () {
                       Navigator.pushNamed(context, '/appointement', arguments: {
