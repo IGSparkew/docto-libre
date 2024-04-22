@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'appointement/screens/appointement_list.dart';
 import 'authentification/screens/login.dart';
-
+import 'successpage/screens/success.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-     options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseAppCheck.instance.activate(
       webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
@@ -38,6 +38,7 @@ class MainApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/appointements': (context) => AppointementListScreen(),
         '/appointement': (context) => AppointementScreen(),
+        '/success': (context) => SuccessPage(),
       },
     );
   }
